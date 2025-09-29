@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "name": "tutorial",
+  "version": "1.0.0",
+  "description": "handson",
+  "devDependencies": {
+    "parcel": "^2.16.0"
+  },
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "\"jest\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeyanandhini28/React-Hands-On.git"
+  },
+  "keywords": [
+    "react",
+    "to-do",
+    "handson"
+  ],
+  "author": "jeyanandhini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeyanandhini28/React-Hands-On/issues"
+  },
+  "homepage": "https://github.com/jeyanandhini28/React-Hands-On#readme"
+}
