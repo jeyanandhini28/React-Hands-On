@@ -1,90 +1,59 @@
 import { useState } from "react";
-import React from "react";
 import ReactDOM from "react-dom/client";
 
+import { useState } from "react"
+
 const App = () => {
-  const [name, setName] = useState([
-    "jay",
-    "nandhini",
-    "shree",
-    "vijay",
-    "dass",
+  const [users, setUsers] = useState([
+    {id: 1,name: "jeya",},
+    { id: 2, name: "nandhini" },
+    { id: 3, name: "nandy" },
   ]);
+  const[input,setInput]=useState("");
+  const[editId,setEditId]=useState(null);
 
-  const [newName, setNewName] = useState("");
-  const [editIndex, setEditIndex] = useState(null);
-  const [editValue, setEditValue] = useState("");
+  const handleChange=(e)=>{
+    setInput(e.target.value);
+  }
+  const handleAdd=()=>{
+    if(input.trim()==="")return;
+    const newUser={id:Date.now(),name:input.trim()};
+    setUsers([...users,newUser]);
+    setInput("");
+  }
 
-  const handleChange = (e) => {
-    setNewName(e.target.value);
-  };
+  const handleDelete=(id)=>{
+    setUsers(users.filter(user=>user.id !==id));
+  }
+  const handleEdit=(id)=>{
+        const user=users.find(user=>user.id===id)
+        setEditId(id);
+        setInput(user.name);
+  }
 
-  const handleAdd = () => {
-    if (newName === "") return;
-    setName([...name, newName]);
-    setNewName("");
-  };
+  const handleUpdate=()=>{
+    users.map(user=>user.id===editId ?{...user,name:input.trim()}:user);
+    setEditId(null);
+    setInput("");
+  }
 
-  const handleDelete = () => {
-    const updatedList = name.filter((name) => name !== newName);
-    setName(updatedList);
-  };
 
-  const handleEdit = (index) => {
-    setEditIndex(index);
-    setEditValue(name[index]);
-  };
-
-  const handleUpdate = () => {
-    const updatedList = [...name];
-    updatedList[editIndex] = editValue;
-    setName(updatedList);
-    setEditIndex(null);
-    setEditValue("");
-  };
 
   return (
     <div>
-      <h2>Name of List</h2>
-
-      <input
-        type="text"
-        placeholder="Enter Your name"
-        value={newName}
-        onChange={handleChange}
-      />
-      <button onClick={handleAdd}> Add </button>
-      <button onClick={handleDelete}>Delete</button>
-      <ul>
-        {name.map((name, index) => (
-          <li key={index}>
-            {editIndex === index ? (
-              <>
-                <input
-                  type="text"
-                  value={editValue}
-                  onChange={(e) => setEditValue(e.target.value)}
-                />
-                <button onClick={handleUpdate}>Update</button>
-                <button onClick={() => setEditIndex(null)}>Cancel</button>
-              </>
-            ) : (
-              <>
-                {name} <button onClick={() => handleEdit(index)}>Edit</button>
-              </>
+        <input type="text" value={input} onChange={handleChange}></input>
+        {editId ?
+        <button onClick={handleAdd}>Add</button> :
+        <button onClick={handleUpdate}>Update</button>}
+        <ul>
+            {users.map(user=>
+                <li key={user.id}>{user.name}
+                <button onClick={()=>handleDelete(user.id)}>Delete</button>
+                <button onClick={()=>handleEdit(user.id)}>Edit</button>
+                </li>
+                
             )}
-          </li>
-        ))}
-      </ul>
-      <h3>Updated List</h3>
-      <ul>
-        {name.map((list, index) => (
-          <li key={index}>{list} </li>
-        ))}
-      </ul>
+        </ul>
     </div>
-  );
-};
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+  )
+}
